@@ -1,0 +1,24 @@
+{
+    "config":{
+        "new":"[新しい設定]",
+        "change":"[既存の設定の変更]",
+        "lang":"言語設定\nja: 日本語\nen: English",
+        "current_value":"現在の設定: ",
+        "undefined":"未定義",
+        "changed":"%s に変更しました。",
+        "nochange":"設定は変更されませんでした。",
+        "token":"\nBotのトークンを入力してください。",
+        "channel_id":"\nチャットを統合したいチャンネルのIDを入力してください。",
+        "op_channel_id":"\n(任意) サーバ管理用のチャンネルのIDを入力してください。\nここで設定したチャンネルから任意のコマンドをMinecraftサーバに送信できます。",
+        "rcon_port":"\n\"server.property\"の中の\"rcon.port\"の値を入力してください。",
+        "rcon_password":"\n\"server.property\"の中の\"rcon.password\"の値を入力してください。",
+        "saved":"\n設定が保存されました。"
+    },
+    "chat":{
+        "server_starting":"Minecraft サーバー バージョン %s を起動中",
+        "server_started":"完了 (%s秒)!",
+        "player_joined":"%s がゲームに参加しました",
+        "player_left": "%s がゲームを退出しました",
+        "server_shutdown":"サーバーが閉鎖されました"
+    }
+}

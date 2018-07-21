@@ -1,0 +1,31 @@
+{
+  "name": "mcdiscordlinker",
+  "version": "0.0.3",
+  "description": "Integrate your Minecraft server with Discord without any MOD.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lapisfluvius/MCDiscordLinker.git"
+  },
+  "keywords": [
+    "Discord",
+    "Minecraft"
+  ],
+  "author": "lapisfluvius",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lapisfluvius/MCDiscordLinker/issues"
+  },
+  "homepage": "https://github.com/lapisfluvius/MCDiscordLinker#readme",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "modern-rcon": "^1.0.3"
+  },
+  "devDependencies": {},
+  "bin": {
+    "mcdl": "src/main.js"
+  },
+  "preferGlobal": true
+}
