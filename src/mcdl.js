@@ -39,20 +39,20 @@ const toDiscord = () => {
     
         if (chunk.match(replacer.version)){
             const serverVersion = chunk.replace(replacer.version, '$1');
-            channel.send('`[INFO]: ' + msg.chat.server_starting.replace('%s',serverVersion).replace(/\n$/g, '') + '`');
+            channel.send('`[INFO]: ' + msg.chat.server_starting.replace(/%s/,serverVersion) + '`');
             client.user.setActivity(`Minecraft ${serverVersion}`, {type:"PLAYING"});
         }
         
         if (chunk.match(replacer.done)) {
-            channel.send('`[INFO]: ' + msg.chat.server_started.replace('%s',chunk.replace(replacer.done, '$1')).replace(/\n$/g, '') + '`');
+            channel.send('`[INFO]: ' + msg.chat.server_started.replace(/%s/,chunk.replace(replacer.done, '$1')) + '`');
         }
     
         if (chunk.match(replacer.joined)) {
-            channel.send('`[INFO]: ' + msg.chat.player_joined.replace('%s',chunk.replace(replacer.joined, '$1')).replace(/\n$/g, '') + '`');
+            channel.send('`[INFO]: ' + msg.chat.player_joined.replace(/%s/,chunk.replace(replacer.joined, '$1')) + '`');
         }
 
         if (chunk.match(replacer.left)) {
-            channel.send('`[INFO]: ' + msg.chat.player_left.replace('%s',chunk.replace(replacer.left, '$1')).replace(/\n$/g, '') + '`');
+            channel.send('`[INFO]: ' + msg.chat.player_left.replace(/%s/,chunk.replace(replacer.left, '$1')) + '`');
         }
     
         if (chunk.match(replacer.chat)) {
