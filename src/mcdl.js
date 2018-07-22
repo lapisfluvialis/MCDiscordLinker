@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
 const Rcon = require('modern-rcon');
+const iconv = require('iconv-lite');
 
 const config = require(`${process.cwd()}/mcdl-config.json`);
-const msg = require(`./${config.lang}.json`)
+const msg = require(`./${config.lang}.json`);
 
 const client = new Discord.Client();
 const replacer = {
@@ -12,14 +13,14 @@ const replacer = {
     joined:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (.+) joined the game(?:(?:\r\n|\r|\n)(?:.+))*/,
     left:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (.+) left the game(?:(?:\r\n|\r|\n)(?:.+))*/,
     chat:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (<.+>) (.+)(?:(?:\r\n|\r|\n)(?:.+))*/,
-    server:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: \[Server\] .+(?:(?:\r\n|\r|\n)(?:.+))*/,
+    server:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (\[Server\]) (.+)(?:(?:\r\n|\r|\n)(?:.+))*/,
     stop:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server Shutdown Thread\/INFO\]: Stopping server(?:(?:\r\n|\r|\n)(?:.+))*/
 };
 
 client.login(config.token);
 
 client.on('ready', () => {
-    toDiscord()
+    toDiscord();
 });
 
 client.on('message', message => {
@@ -30,13 +31,19 @@ const toDiscord = () => {
     const channel = client.channels.get(config.channelId);
 
     process.stdin.resume();
-    process.stdin.setEncoding('utf8');
-    
+
+    if (config.encoding !== 'sjis') {
+        process.stdin.setEncoding('utf8');
+    }
+
     process.stdin.on('data', function(chunk) {
-    
+
+        if (config.encoding === 'sjis') {
+            chunk = iconv.decode(chunk,'SHIFT-JIS');
+        }
         console.log(chunk.replace(/\n$/g, ''));
-        chunk = chunk.replace(/\n$/g, '')
-    
+        chunk = chunk.replace(/(?:\r\n|\r|\n)/g, '');
+        
         if (chunk.match(replacer.version)){
             const serverVersion = chunk.replace(replacer.version, '$1');
             channel.send('`[INFO]: ' + msg.chat.server_starting.replace(/%s/,serverVersion) + '`');
@@ -60,7 +67,7 @@ const toDiscord = () => {
         }
     
         if (chunk.match(replacer.server)) {
-            channel.send(chunk.replace(replacer.info, ''));
+            channel.send(chunk.replace(replacer.server, '**$1** $2'));
         }
     
         if (chunk.match(replacer.stop)) {
@@ -87,7 +94,7 @@ const toMinecraft = message => {
             },{
                 color: 'white',
                 text:`> ${message.content}`
-            }]))
+            }]));
 
             sendCommand(tellraw);
         }else if(message.channel.id === config.opChannelId) {

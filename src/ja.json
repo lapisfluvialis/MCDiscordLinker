@@ -7,6 +7,7 @@
         "undefined":"未定義",
         "changed":"%s に変更しました。",
         "nochange":"設定は変更されませんでした。",
+        "encoding":"\n文字コード設定\nutf8: UTF-8 (Linux・macOSなど)\nsjis: SHIFT-JIS (Windowsなど)",
         "token":"\nBotのトークンを入力してください。",
         "channel_id":"\nチャットを統合したいチャンネルのIDを入力してください。",
         "op_channel_id":"\n(任意) サーバ管理用のチャンネルのIDを入力してください。\nここで設定したチャンネルから任意のコマンドをMinecraftサーバに送信できます。",
