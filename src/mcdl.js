@@ -42,32 +42,31 @@ const toDiscord = () => {
             chunk = iconv.decode(chunk,'SHIFT-JIS');
         }
         console.log(chunk.replace(/\n$/g, ''));
-        chunk = chunk.replace(/(?:\r\n|\r|\n)/g, '');
         
         if (chunk.match(replacer.version)){
             const serverVersion = chunk.replace(replacer.version, '$1');
-            channel.send('`[INFO]: ' + msg.chat.server_starting.replace(/%s/,serverVersion) + '`');
+            channel.send('`[INFO]: ' + msg.chat.server_starting.replace(/%s/,serverVersion).replace(/(?:\r\n|\r|\n)/g, '') + '`');
             client.user.setActivity(`Minecraft ${serverVersion}`, {type:"PLAYING"});
         }
         
         if (chunk.match(replacer.done)) {
-            channel.send('`[INFO]: ' + msg.chat.server_started.replace(/%s/,chunk.replace(replacer.done, '$1')) + '`');
+            channel.send('`[INFO]: ' + msg.chat.server_started.replace(/%s/,chunk.replace(replacer.done, '$1')).replace(/(?:\r\n|\r|\n)/g, '') + '`');
         }
     
         if (chunk.match(replacer.joined)) {
-            channel.send('`[INFO]: ' + msg.chat.player_joined.replace(/%s/,chunk.replace(replacer.joined, '$1')) + '`');
+            channel.send('`[INFO]: ' + msg.chat.player_joined.replace(/%s/,chunk.replace(replacer.joined, '$1')).replace(/(?:\r\n|\r|\n)/g, '') + '`');
         }
 
         if (chunk.match(replacer.left)) {
-            channel.send('`[INFO]: ' + msg.chat.player_left.replace(/%s/,chunk.replace(replacer.left, '$1')) + '`');
+            channel.send('`[INFO]: ' + msg.chat.player_left.replace(/%s/,chunk.replace(replacer.left, '$1')).replace(/(?:\r\n|\r|\n)/g, '') + '`');
         }
     
         if (chunk.match(replacer.chat)) {
-            channel.send(chunk.replace(replacer.chat, '**$1** $2'));
+            channel.send(chunk.replace(replacer.chat, '**$1** $2').replace(/(?:\r\n|\r|\n)/g, ''));
         }
     
         if (chunk.match(replacer.server)) {
-            channel.send(chunk.replace(replacer.server, '**$1** $2'));
+            channel.send(chunk.replace(replacer.server, '**$1** $2').replace(/(?:\r\n|\r|\n)/g, ''));
         }
     
         if (chunk.match(replacer.stop)) {
