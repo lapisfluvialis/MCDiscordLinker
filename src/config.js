@@ -34,6 +34,8 @@ exports.editConfig = async () => {
     config.lang = await readline(config.lang);
     msg = require(`./${config.lang}.json`);
 
+    console.log(msg.config.encoding);
+    config.encoding = await readline(config.encoding);
     console.log(msg.config.token);
     config.token = await readline(config.token);
     console.log(msg.config.channel_id)

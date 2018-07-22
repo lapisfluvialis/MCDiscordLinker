@@ -7,6 +7,7 @@
         "undefined":"Undefined",
         "changed":"Changed to %s.",
         "nochange":"Nothig was changed.",
+        "encoding":"\nSet the character encoding\nutf8: UTF-8 (Linux, macOS, etc)\nsjis: SHIFT-JIS (Windows, etc)",
         "token":"\nEnter the token of your Discord Bot.",
         "channel_id":"\nEnter the ID of the channel you want integrate with.",
         "op_channel_id":"\n(Option) Enter the ID of channel for operator(s).\nYou can send any command as a server operator to your Minecraft server via this channel.",
