@@ -1,6 +1,6 @@
 {
   "name": "mcdiscordlinker",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Integrate your Minecraft server with Discord without any MOD.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
