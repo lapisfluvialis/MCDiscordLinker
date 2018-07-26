@@ -2,39 +2,27 @@
 
 ![demo](https://github.com/lapisfluvius/MCDiscordLinker/blob/master/DEMO.gif)
 
-## 1. Install
+## Features
+* Enable the members to talk with people in the game from Discord channel.
+* The members can know who is joining the game by sending "/list" command from the channel. 
+* Operator(s) can send any command via the dedicated channel.
+* You don't have to install Forge or Spigot.
+
+## Install
 ```
 $ npm install mcdiscordlinker -g
 ```
+**Do not forget -g option.**
 
-## 2. Config
-Add properties like the following example to "server.property".
-```
-enable-rcon=true
-rcon.port=25575
-rcon.password=X9cigNWU
-```
+## Run
+Replace "java" in the server startup command with "mcdl".
 
-In your server directory,
+e.g.
 ```
-$ mcdl --config
+$ mcdl -jar server.jar nogui
 ```
-and follow the instructions.
-
-(*1) Could you please google how to create a Discord bot and get a token.
-
-(*2) To get the channel ID,
-1. Click the gear icon at the bottom-right of your Discord client.
-2. Click "Appearance" in the menu.
-3. Enable "Developer Mode" in "ADVANCED".
-4. Right-click on the channel name.
-5. Select "Copy ID".
-
-## 3. Run
-Run as below.
-```
-$ java -jar server.jar nogui | mcdl
-```
+* The first time you start the server, you have to configure the settings by following the instructions displayed on the screen.
+* The configuration file, "mcdl-config.json", will be created in the current directory. You can edit this file by "mcdl" command or various text editors.
 
 
 
