@@ -44,30 +44,22 @@ function run(args,config) {
     discord.login(config.token);
 
     process.stdin.resume();
-    if (config.encoding !== 'SHIFT-JIS') {
-        process.stdin.setEncoding('utf8');
-    }
+    process.stdin.setEncoding('utf8');
     process.stdin.on('data', chunk => {
-        if (config.encoding === 'SHIFT-JIS') {
-            chunk = iconv.decode(chunk,'SHIFT-JIS');
-        }
         sendToMinecraft(chunk);
     });
 
     discord.on('ready', () => {
         const channel = discord.channels.get(config.channelId);
         function sendToDiscord(message,...args) {
-            // if (args.length > 0) {
                 channel.send(util.format(message,...args).replace(/(?:\r\n|\r|\n)/g, ''));
-            // }else{
-            //     channel.send(message.replace(/(?:\r\n|\r|\n)/g, ''));
-            // }
         }
 
         minecraft.stdout.on('data',chunk => {
-            chunk = chunk.toString()
             if (config.encoding === 'SHIFT-JIS') {
                 chunk = iconv.decode(chunk,'SHIFT-JIS');
+            }else{
+                chunk = chunk.toString();
             }
             console.log(chunk.replace(/\n$/g, ''));
 
@@ -115,7 +107,7 @@ function run(args,config) {
         if(!message.author.bot) {
             if(message.channel.id === config.channelId) {
                 if (message.content === '/list') {
-                    sendToMinecraft('list');
+                    sendToMinecraft('list\n');
                 }else{
                     console.log(`[${new Date().toLocaleTimeString(undefined,{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'})}] [MCDiscordLinker/DISCORD]: <${message.member.nickname || message.author.username}> ` + (message.content).replace(/\n$/g, ''));
             
@@ -129,16 +121,16 @@ function run(args,config) {
                         text:`> ${message.content}`
                     }]));
                 
-                    sendToMinecraft(tellraw);
+                    sendToMinecraft(tellraw + '\n');
                 }
             }else if(message.channel.id === config.opChannelId) {
-                sendToMinecraft(message.content);
+                sendToMinecraft(message.content + '\n');
             }
         }
         
     });
     function sendToMinecraft(command) {
-        minecraft.stdin.write(command + '\n');
+        minecraft.stdin.write(command);
     }
 }
 
