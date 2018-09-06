@@ -15,7 +15,7 @@ let msg;
         }
     }else{
         setting();
-    }    
+    }
 })();
 
 function run(args,config) {
@@ -26,18 +26,17 @@ function run(args,config) {
 
     msg = require(`./${config.lang}.json`);
 
-    const replacer = {
-        version:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: Starting minecraft server version (\S.+)(?:(?:\r\n|\r|\n)(?:.+))*/,
-        done:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: Done \((.*)s\)! For help, type "help"(?:(?:\r\n|\r|\n)(?:.+))*/,
-        info:/\[..:..:..\] \[Server thread\/INFO\]: /g,
-        joined:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (.+) joined the game(?:(?:\r\n|\r|\n)(?:.+))*/,
-        left:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (.+) left the game(?:(?:\r\n|\r|\n)(?:.+))*/,
-        list:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: There are .* of a max .* players online: (\S.+)(?:(?:\r\n|\r|\n)(?:.+))*/,
-        chat:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (<.+>) (.+)(?:(?:\r\n|\r|\n)(?:.+))*/,
-        server:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server thread\/INFO\]: (\[Server\]) (.+)(?:(?:\r\n|\r|\n)(?:.+))*/,
-        stop:/(?:(?:.+)(?:\r\n|\r|\n))*\[..:..:..\] \[Server Shutdown Thread\/INFO\]: Stopping server(?:(?:\r\n|\r|\n)(?:.+))*/
+    const re = {
+        version:/\[..:..:..\] \[Server thread\/INFO\]: Starting minecraft server version (\S.+)/,
+        done:/\[..:..:..\] \[Server thread\/INFO\]: Done \((.*)s\)! For help, type "help"/,
+        joined:/\[..:..:..\] \[Server thread\/INFO\]: (.+) joined the game/,
+        left:/\[..:..:..\] \[Server thread\/INFO\]: (.+) left the game/,
+        list:/\[..:..:..\] \[Server thread\/INFO\]: There are .* of a max .* players online: (\S.+)/,
+        chat:/\[..:..:..\] \[Server thread\/INFO\]: (<.+>) (.+)/,
+        server:/\[..:..:..\] \[Server thread\/INFO\]: (\[Server\]) (.+)/,
+        stop:/\[..:..:..\] \[Server Shutdown Thread\/INFO\]: Stopping server/
     };
-    
+
     const discord = new DiscordJs.Client();
     const minecraft = child.spawn('java',args,{stdio:'pipe'});
 
@@ -55,7 +54,7 @@ function run(args,config) {
                 channel.send(util.format(message,...args).replace(/(?:\r\n|\r|\n)/g, ''));
         }
 
-        minecraft.stdout.on('data',chunk => {
+        minecraft.stdout.on('data', chunk => {
             if (config.encoding === 'SHIFT-JIS') {
                 chunk = iconv.decode(chunk,'SHIFT-JIS');
             }else{
@@ -63,42 +62,42 @@ function run(args,config) {
             }
             console.log(chunk.replace(/\n$/g, ''));
 
-            if (chunk.match(replacer.version)){
-                const serverVersion = chunk.replace(replacer.version, '$1');
+            if (re.version.test(chunk)) {
+                const serverVersion = chunk.match(re.version)[1];
                 sendToDiscord(msg.chat.server_starting,serverVersion);
-                discord.user.setActivity(`Minecraft ${serverVersion}`, {type:"PLAYING"});
-            }
-            
-            if (chunk.match(replacer.done)) {
-                sendToDiscord(msg.chat.server_started,chunk.replace(replacer.done, '$1'));
-            }
-        
-            if (chunk.match(replacer.joined)) {
-                sendToDiscord(msg.chat.player_joined,chunk.replace(replacer.joined, '$1'));
-            }
-    
-            if (chunk.match(replacer.left)) {
-                sendToDiscord(msg.chat.player_left,chunk.replace(replacer.left, '$1'));
+                discord.user.setActivity(`Minecraft ${serverVersion}`, {type:'PLAYING'});
             }
 
-            if(chunk.match(replacer.list)) {
-                sendToDiscord(msg.chat.online,chunk.replace(replacer.list, '$1'));
+            if (re.done.test(chunk)) {
+                sendToDiscord(msg.chat.server_started,chunk.match(re.done)[1]);
             }
-        
-            if (chunk.match(replacer.chat)) {
-                sendToDiscord(chunk.replace(replacer.chat, '**$1** $2'));
+
+            if (re.joined.test(chunk)) {
+                sendToDiscord(msg.chat.player_joined,chunk.match(re.joined)[1]);
             }
-        
-            if (chunk.match(replacer.server)) {
-                sendToDiscord(chunk.replace(replacer.server, '**$1** $2'));
+
+            if (re.left.test(chunk)) {
+                sendToDiscord(msg.chat.player_left,chunk.match(re.left)[1]);
             }
-        
-            if (chunk.match(replacer.stop)) {
+
+            if(re.list.test(chunk)) {
+                sendToDiscord(msg.chat.online,chunk.match(re.list)[1]);
+            }
+
+            if (re.chat.test(chunk)) {
+                sendToDiscord(`**${chunk.match(re.chat)[1]}** ${chunk.match(re.chat)[2]}`);
+            }
+
+            if (re.server.test(chunk)) {
+                sendToDiscord(`**${chunk.match(re.server)[1]}** ${chunk.match(re.server)[2]}`);
+            }
+
+            if (re.stop.test(chunk)) {
                 sendToDiscord(msg.chat.server_shutdown);
                 discord.destroy();
             }
         });
-        minecraft.stdout.on('end',() => {
+        minecraft.stdout.on('end', () => {
             process.exit(0);
         });
     });
@@ -110,7 +109,7 @@ function run(args,config) {
                     sendToMinecraft('list\n');
                 }else{
                     console.log(`[${new Date().toLocaleTimeString(undefined,{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'})}] [MCDiscordLinker/DISCORD]: <${message.member.nickname || message.author.username}> ` + (message.content).replace(/\n$/g, ''));
-            
+
                     const tellraw = ('tellraw @a ' + JSON.stringify([{
                         text: '<'
                     },{
@@ -120,14 +119,13 @@ function run(args,config) {
                         color: 'white',
                         text:`> ${message.content}`
                     }]));
-                
+
                     sendToMinecraft(tellraw + '\n');
                 }
             }else if(message.channel.id === config.opChannelId) {
                 sendToMinecraft(message.content + '\n');
             }
         }
-        
     });
     function sendToMinecraft(command) {
         minecraft.stdin.write(command);
@@ -144,7 +142,7 @@ async function setting() {
         msg = require(`./en.json`);
         console.log(msg.config.new);
     }
-    
+
     // 言語設定
     console.log(msg.config.lang);
     config.lang = await listbox(['en','ja'],config.lang);
@@ -195,7 +193,7 @@ async function setting() {
     function listbox(items,currentValue) {
         const readline = require('readline');
         readline.emitKeypressEvents(process.stdin);
-        
+
         const rl = readline.createInterface({
             input:process.stdin,
             output:process.stdout,
@@ -205,7 +203,9 @@ async function setting() {
         let isFirst = true;
 
         function selectItem(indexOfSelectedItem) {
-            isFirst? isFirst=false:console.log('\x1B['+(items.length+1)+'A');
+            isFirst
+            ? isFirst = false
+            : console.log('\x1B[' + (items.length + 1) + 'A');
             for (let i in items) {
                 if (i == indexOfSelectedItem) {
                     console.log('\x1b[7m• %s\x1b[0m\x1B[K',items[i]);
@@ -222,8 +222,8 @@ async function setting() {
 
         return new Promise(resolve => {
             process.stdin.on('keypress',function self(key,ch){
-                if(ch.name=="return") {
-                    process.stdin.removeListener("keypress",self);
+                if(ch.name === 'return') {
+                    process.stdin.removeListener('keypress',self);
                     process.stdin.setRawMode(false);
                     rl.close();
                     console.log(msg.config.changed,items[value]);
