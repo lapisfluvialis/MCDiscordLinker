@@ -20,12 +20,12 @@
   },
   "homepage": "https://github.com/lapisfluvius/MCDiscordLinker#readme",
   "dependencies": {
-    "discord.js": "^11.3.2",
-    "iconv-lite": "^0.4.23"
+    "discord.js": "^11.4.2",
+    "iconv-lite": "^0.4.24"
   },
   "devDependencies": {},
   "bin": {
-    "mcdl": "src/main.js"
+    "mcdl": "src/index.js"
   },
   "preferGlobal": true
 }
