@@ -4,10 +4,10 @@ module.exports = class extends Plugin {
         super(discord, minecraft, config);
         this.minecraft = {
             ...this.minecraft,
-            re: /\[..:..:..\] \[Server thread\/INFO\]: (.+?) left the game/,
+            re: /\[..:..:..\] \[Server thread\/INFO\]: (.+) was blown up by (.+)\n/ ,
             text: {
-                ja_jp: '`[INFO]: %s がゲームを退出しました`',
-                en_us: '`[INFO]: %s left the game`',
+                ja_jp: '`%s は %s に爆破された`',
+                en_us: '`%s was blown up by %s`',
             },
         };
     }

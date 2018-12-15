@@ -6,8 +6,8 @@ module.exports = class extends Plugin {
             ...this.minecraft,
             re: /\[..:..:..\] \[Server thread\/INFO\]: Done \((.+?)s\)! For help, type "help"/,
             text: {
-                ja_jp: '[INFO]: 完了 (%s秒)!',
-                en_us: '[INFO]: Done (%ss)!',
+                ja_jp: '`[INFO]: 完了 (%s秒)!`',
+                en_us: '`[INFO]: Done (%ss)!`',
             },
         };
     }

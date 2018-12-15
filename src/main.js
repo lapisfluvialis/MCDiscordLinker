@@ -6,7 +6,7 @@ module.exports = args => {
     const iconv = require('iconv-lite');
     const fs = require('fs');
 
-    const Plugins = fs.readdirSync(`${__dirname}/plugins`).filter(filename => fs.statSync(`${__dirname}/plugins/${filename}`).isFile()).map(filename => require(`./plugins/${filename}`));
+    const Plugins = fs.readdirSync(`${__dirname}/plugins`).filter(filename => fs.statSync(`${__dirname}/plugins/${filename}`).isFile()).map(filename => filename.replace(/\.js/,'')).sort().map(filename => require(`./plugins/${filename}`));
 
     console.log('Please wait...');
 

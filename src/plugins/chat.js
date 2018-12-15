@@ -4,7 +4,7 @@ module.exports = class extends Plugin {
         super(discord, minecraft, config);
         this.minecraft = {
             ...this.minecraft,
-            re: /\[..:..:..\] \[Server thread\/INFO\]: ([<\[].+?[>\]]) (.+)/,
+            re: /\[..:..:..\] \[Server thread\/INFO\]: ([<\[]\S+?[>\]]) (.+)/,
             text: {
                 ja_jp: '**%s** %s',
                 en_us: '**%s** %s',

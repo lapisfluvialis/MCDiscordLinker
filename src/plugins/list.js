@@ -6,8 +6,8 @@ module.exports = class extends Plugin {
             ...this.minecraft,
             re: /\[..:..:..\] \[Server thread\/INFO\]: There are .* of a max .* players online(:.*)/,
             text: {
-                ja_jp: 'オンライン%s',
-                en_us: 'Online%s',
+                ja_jp: '`オンライン%s`',
+                en_us: '`Online%s`',
             },
         };
         this.discord = {

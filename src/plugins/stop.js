@@ -6,8 +6,8 @@ module.exports = class extends Plugin {
             ...this.minecraft,
             re: /\[..:..:..\] \[Server Shutdown Thread\/INFO\]: Stopping server/,
             text: {
-                ja_jp: '[INFO]: サーバーが閉鎖されました',
-                en_us: '[INFO]: Server closed',
+                ja_jp: '`[INFO]: サーバーが閉鎖されました`',
+                en_us: '`[INFO]: Server closed`',
             },
         };
     }

@@ -6,8 +6,8 @@ module.exports = class extends Plugin {
             ...this.minecraft,
             re: /\[..:..:..\] \[Server thread\/INFO\]: (.+?) joined the game/,
             text: {
-                ja_jp: '[INFO]: %s がゲームに参加しました',
-                en_us: '[INFO]: %s joined the game',
+                ja_jp: '`[INFO]: %s がゲームに参加しました`',
+                en_us: '`[INFO]: %s joined the game`',
             },
         };
     }

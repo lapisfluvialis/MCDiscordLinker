@@ -6,8 +6,8 @@ module.exports = class extends Plugin {
             ...this.minecraft,
             re: /\[..:..:..\] \[Server thread\/INFO\]: Starting minecraft server version (\S.+)/,
             text: {
-                ja_jp: '[INFO]: Minecraft サーバー バージョン %s を起動中',
-                en_us: '[INFO]: Starting minecraft server version %s',
+                ja_jp: '`[INFO]: Minecraft サーバー バージョン %s を起動中`',
+                en_us: '`[INFO]: Starting minecraft server version %s`',
             },
         };
     }
