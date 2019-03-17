@@ -1,6 +1,6 @@
 {
   "name": "mcdiscordlinker",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Integrate your Minecraft server with Discord without any MOD.",
   "main": "index.js",
   "scripts": {
