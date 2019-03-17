@@ -16,5 +16,3 @@ export default abstract class MinecraftPlugin {
     }
     protected abstract matched(match: string[]) :void;
 }
-
-// MinecraftPlugin implements Plugin と DiscordClientPlugin implements Plugin に分ける
