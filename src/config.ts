@@ -1,16 +1,32 @@
-let msg, config;
+import MCDLConfig from "./MCDLConfig";
+import Cli from "./cli";
+import fs from "fs";
+
+let msg: {
+    new: string,
+    change: string,
+    lang: string,
+    current_value: string,
+    undefined: string,
+    changed: string,
+    keep_setting: string,
+    nochange: string,
+    encoding: string,
+    token: string,
+    channel_id: string,
+    op_channel_id: string,
+    saved: string,
+};
+let config: MCDLConfig;
 try {
     config = require(`${process.cwd()}/mcdl-config.json`);
     msg = require(`./lang/${config.lang}.json`);
-    console.log(msg.change);
 } catch (error) {
     msg = require(`./lang/en_us.json`);
-    console.log(msg.new);
 }
 
-const Cli = require('./cli');
 class ChangeConfigCli extends Cli {
-    async input(currentValue) {
+    async input(currentValue: string) {
         console.log(msg.current_value + (currentValue || msg.undefined));
         console.log(msg.keep_setting);
         const input = await super.input();
@@ -22,18 +38,21 @@ class ChangeConfigCli extends Cli {
             return currentValue;
         }
     }
-    async select(items, currentValue) {
+    async select<T>(items: string[], currentValue?: string): Promise<T> {
         console.log(msg.current_value + (currentValue || msg.undefined));
-        const selected = await super.select(items);
+        const selected = await super.select<T>(items);
         console.log(msg.changed, selected);
         return selected;
     }
 }
 const cli = new ChangeConfigCli();
 
-module.exports = async () => {
-
-    const fs = require('fs');
+export default async () => {
+    if (config) {
+        console.log(msg.change);
+    } else {
+        console.log(msg.new);
+    }
 
     // 言語設定
     console.log(msg.lang);

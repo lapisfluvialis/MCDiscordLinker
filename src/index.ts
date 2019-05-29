@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 import MCDiscordClientLinker from "./MCDiscordLinker";
-
-const config = require(`./config`);
+import config from './config';
 
 (async () => {
     if(process.argv[2]) {

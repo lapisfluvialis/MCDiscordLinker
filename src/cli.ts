@@ -1,15 +1,12 @@
-module.exports = class {
-    /**
-     * @param {Object} options
-     * @param {string} options.prompt The prompt string to use. Default: '> '.
-     * @param {string} options.bullet The bullet for the list. Default: '• '.
-     */
-    constructor(options = {}) {
-        this.readline = require('readline');
+import readline from "readline";
+
+export default class Cli {
+    private readonly options: {prompt: string, bullet: string}
+    constructor(options: {prompt: string, bullet: string} = {prompt: '> ', bullet: '• '}) {
         this.options = options;
     }
-    input() {
-        const rl = this.readline.createInterface({
+    protected input(_arg?: string): Promise<string> {
+        const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
             prompt: this.options.prompt,
@@ -22,22 +19,21 @@ module.exports = class {
             });
         });
     }
-    /** @param {string[]} items The items to show. */
-    select(items) {
-        const rl = this.readline.createInterface({
+    protected select<T>(items: string[]): Promise<T> {
+        const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
         });
-        const bullet = this.options.bullet || '• ';
-        this.readline.emitKeypressEvents(process.stdin);
+        const bullet = this.options.bullet;
+        readline.emitKeypressEvents(process.stdin);
 
         let isFirst = true;
-        const selectItem = index => {
+        const selectItem = (index: number) => {
             isFirst
             ? isFirst = false
-            : console.log('\x1B[%dA',items.length + 1);
+            : console.log('\x1B[%dA', items.length + 1);
             for (let i in items) {
-                if (i == index) {
+                if (parseInt(i) === index) {
                     console.log('\x1b[7m%s%s\x1b[0m\x1B[K', bullet, items[i]);
                 }else{
                     console.log('%s%s\x1B[K', bullet, items[i]);
@@ -46,16 +42,16 @@ module.exports = class {
         }
         let index = 0;
         selectItem(index);
-        process.stdin.setRawMode(true);
+        process.stdin.setRawMode!(true);
         return new Promise(resolve => {
             process.stdin.on('keypress',function self(key,ch){
                 switch (ch.sequence) {
                     case '\r':
                         process.stdin.removeListener('keypress',self);
-                        process.stdin.setRawMode(false);
+                        process.stdin.setRawMode!(false);
                         rl.close();
                         console.log('\x1B[2A');
-                        resolve(items[index]);
+                        resolve(<T><unknown>items[index]);
                         break;
                     case '\u001b[A':
                         if (index > 0) {
@@ -71,7 +67,7 @@ module.exports = class {
                         break;
                     case '\u0003':
                         process.stdin.removeListener('keypress',self);
-                        process.stdin.setRawMode(false);
+                        process.stdin.setRawMode!(false);
                         rl.close();
                         process.exit(0);
                         break;
@@ -81,26 +77,21 @@ module.exports = class {
             });
         });
     }
-    /**
-     * @param {number} value The default value. Default: `0`.
-     * @param {number} min The minimum value. Default: `Number.MIN_SAFE_INTEGER`.
-     * @param {number} max The maximum value. Default: `Number.MAX_SAFE_INTEGER`.
-     */
     spin(value = 0, min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER) {
-        const rl = this.readline.createInterface({
+        const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout,
         });
-        this.readline.emitKeypressEvents(process.stdin);
-        const spin = value => console.log(value + '\x1B[K\x1B[1A');
+        readline.emitKeypressEvents(process.stdin);
+        const spin = (value: number) => console.log(value + '\x1B[K\x1B[1A');
         spin(value);
-        process.stdin.setRawMode(true);
+        process.stdin.setRawMode!(true);
         return new Promise(resolve => {
             process.stdin.on('keypress',function self(key,ch){
                 switch (ch.sequence) {
                     case '\r':
                         process.stdin.removeListener('keypress', self);
-                        process.stdin.setRawMode(false);
+                        process.stdin.setRawMode!(false);
                         rl.close();
                         resolve(value);
                         break;
@@ -118,7 +109,7 @@ module.exports = class {
                         break;
                     case '\u0003':
                         process.stdin.removeListener('keypress',self);
-                        process.stdin.setRawMode(false);
+                        process.stdin.setRawMode!(false);
                         rl.close();
                         process.exit(0);
                         break;
