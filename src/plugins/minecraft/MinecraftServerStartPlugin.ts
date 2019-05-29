@@ -1,12 +1,7 @@
-import DiscordClient from "../../DiscordClient";
-import MinecraftServer from "../../MinecraftServer";
 import MinecraftPlugin from "../../MinecraftPlugin";
 import MCDLLocalizableString from "../../MCDLLocalizableString";
 
 export default class MinecraftServerStartPlugin extends MinecraftPlugin {
-    constructor(discordClient: DiscordClient, minecraftServer: MinecraftServer) {
-        super(discordClient, minecraftServer);
-    }
     public readonly matcher: RegExp = /\[..:..:..\] \[Server thread\/INFO\]: Starting minecraft server version (\S.+)/;
     protected matched(match: string[]): void {
         this.discordClient.setActivity(`Minecraft ${match[0]}`, 'PLAYING');

@@ -1,15 +1,10 @@
 import DiscordPlugin from "../../DiscordPlugin";
-import DiscordClient from "../../DiscordClient";
-import MinecraftServer from "../../MinecraftServer";
 import { Message } from "discord.js";
 import MCDiscordLinker from "../../MCDiscordLinker";
 
 export default class DiscordChatPlugin extends DiscordPlugin {
     public readonly onOpChannel: boolean = false;
     public readonly matcher: RegExp = /^(?!\/).+/;
-    constructor(discordClient: DiscordClient, minecraftServer: MinecraftServer) {
-        super(discordClient, minecraftServer);
-    }
     protected matched(message: Message): void {
         MCDiscordLinker.logger('DISCORD', `<${message.member.nickname || message.author.username}> ${message.content}`)
         const body = [{

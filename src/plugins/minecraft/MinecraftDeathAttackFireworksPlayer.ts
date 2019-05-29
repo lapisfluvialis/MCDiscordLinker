@@ -1,12 +1,7 @@
-import DiscordClient from "../../DiscordClient";
-import MinecraftServer from "../../MinecraftServer";
 import MinecraftPlugin from "../../MinecraftPlugin";
 import MCDLLocalizableString from "../../MCDLLocalizableString";
 
 export default class MinecraftDeathAttackFireworksPlayer extends MinecraftPlugin {
-    constructor(discordClient: DiscordClient, minecraftServer: MinecraftServer) {
-        super(discordClient, minecraftServer);
-    }
     public readonly matcher: RegExp = /\[..:..:..\] \[Server thread\/INFO\]: (.+) went off with a bang whilst fighting (.+)\n/ ;
     protected matched(match: string[]): void {
         this.discordClient.sendf(this.localizable, match);
