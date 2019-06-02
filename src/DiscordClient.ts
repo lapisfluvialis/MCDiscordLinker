@@ -33,7 +33,7 @@ export default class DiscordClient extends EventEmitter{
         matchedPlugin.exec(message);
     }
     public get members(): Map<string, string> {
-        const member = (this.client.channels.get(this.config.channelId) as TextChannel).guild.members.filter(member => !member.user.bot).map(mem => [mem.user.username, mem.id]);
+        const member = (this.client.channels.get(this.config.channelId) as TextChannel).guild.members.filter(member => !member.user.bot).map(mem => [mem.nickname || mem.user.username, mem.id]);
         return new Map(member as [string, string][]);
     }
     public sendf(localizableString: MCDLLocalizableString, arg: string[] = [], toOpChannel?: boolean) {
