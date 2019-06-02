@@ -1,4 +1,4 @@
-{
+const en_us = {
     "new":"[NEW]",
     "change":"[CHANGE]",
     "lang":"Language Preference\nSelect by arrow keys and the enter key",
@@ -13,3 +13,4 @@
     "op_channel_id":"\nEnter the ID of channel for operators.\nYou can send any command to your Minecraft server as a server operator via this channel.",
     "saved":"\nSaved."
 }
+export default en_us;

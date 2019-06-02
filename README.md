@@ -1,6 +1,6 @@
 # MCDiscordLinker
 
-![demo](https://github.com/lapisfluvius/MCDiscordLinker/blob/master/DEMO.gif)
+![demo](https://github.com/lapisfluvialis/MCDiscordLinker/blob/master/DEMO.gif)
 
 ## Features
 * Enable the members to talk with people in the game from Discord channel.
@@ -26,4 +26,4 @@ $ mcdl -jar server.jar nogui
 
 
 
-[![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/lapisfluvius/MCDiscordLinker/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/l/express.svg)](https://github.com/lapisfluvialis/MCDiscordLinker/blob/master/LICENSE)

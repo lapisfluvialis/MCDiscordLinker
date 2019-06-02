@@ -8,24 +8,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lapisfluvius/MCDiscordLinker.git"
+    "url": "git+https://github.com/lapisfluvialis/MCDiscordLinker.git"
   },
   "keywords": [
     "Discord",
     "Minecraft"
   ],
-  "author": "lapisfluvius (https://twitter.com/lapisfluvius)",
+  "author": "lapisfluvialis (https://twitter.com/lapisfluvialis)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lapisfluvius/MCDiscordLinker/issues"
+    "url": "https://github.com/lapisfluvialis/MCDiscordLinker/issues"
   },
-  "homepage": "https://github.com/lapisfluvius/MCDiscordLinker#readme",
+  "homepage": "https://github.com/lapisfluvialis/MCDiscordLinker#readme",
   "dependencies": {
     "discord.js": "^11.4.2",
     "iconv-lite": "^0.4.24"
   },
   "devDependencies": {
-    "@types/node": "^11.11.3"
+    "@types/node": "^11.11.3",
+    "typescript": "^3.5.1"
   },
   "bin": {
     "mcdl": "dist/index.js"

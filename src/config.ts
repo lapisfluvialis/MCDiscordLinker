@@ -20,9 +20,9 @@ let msg: {
 let config: MCDLConfig;
 try {
     config = require(`${process.cwd()}/mcdl-config.json`);
-    msg = require(`./lang/${config.lang}.json`);
+    msg = require(`./lang/${config.lang}`);
 } catch (error) {
-    msg = require(`./lang/en_us.json`);
+    msg = require(`./lang/en_us`);
 }
 
 class ChangeConfigCli extends Cli {
@@ -57,7 +57,7 @@ export default async () => {
     // 言語設定
     console.log(msg.lang);
     config.lang = await cli.select(['en_US','ja_JP'], config.lang);
-    msg = require(`./lang/${config.lang}.json`);
+    msg = require(`./lang/${config.lang}`);
 
     // 文字コード設定
     console.log(msg.encoding);
