@@ -12,7 +12,6 @@ export default abstract class DiscordPlugin {
         this.minecraftServer = minecraftServer;
     }
     public exec(message: Message): void {
-        if(message.author.bot) return;
         this.matched(message);
     }
     protected abstract matched(message: Message) :void;

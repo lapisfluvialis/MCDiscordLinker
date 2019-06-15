@@ -30,6 +30,8 @@ export default class DiscordClient extends EventEmitter{
     private onMessage(message: Message) {
         const matchedPlugin = this.plugins!.find(plugin => plugin.matcher.test(message.content) && (message.channel.id === this.config.opChannelId) === plugin.onOpChannel);
         if (!matchedPlugin) return;
+        if (message.author.bot) return;
+        if (!(message.channel.id === this.config.channelId || message.channel.id === this.config.opChannelId)) return;
         matchedPlugin.exec(message);
     }
     public get members(): Map<string, string> {
